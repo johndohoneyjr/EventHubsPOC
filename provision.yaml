@@ -1,0 +1,33 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+- job: Deploy
+  displayName: Terraform Deploy
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+  - task: TerraformInstaller@0
+    displayName: Install Terraform latest
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform : Init'
+    inputs:
+      backendServiceArm: 'sc-event-hubs'
+      backendAzureRmResourceGroupName: dohoney-devops-rg
+      backendAzureRmStorageAccountName: johndohoneytf
+      backendAzureRmContainerName: tfstatedohoney
+      backendAzureRmKey: terraform.tfstate
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform : Plan'
+    inputs:
+      command: plan
+      environmentServiceNameAzureRM: 'sc-event-hubs'
+  - task: TerraformTaskV2@2
+    displayName: 'Terraform : Validate and Apply'
+    inputs:
+      command: apply
+      environmentServiceNameAzureRM: 'sc-event-hubs'
