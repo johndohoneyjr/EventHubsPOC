@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = EventHubSender
+build_property.ProjectDir = C:\Users\johndohoney\EventHubsPOC\EventSend\EventHubSender\EventHubSender\
